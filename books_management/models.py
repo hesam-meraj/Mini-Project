@@ -8,7 +8,7 @@ class Category(models.Model):
 class Book(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    publish_at = models.DateField()
+    published_at = models.DateField()
     number_of_pages = models.PositiveIntegerField()
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
 
