@@ -10,7 +10,7 @@ class Book(models.Model):
     description = models.TextField()
     published_at = models.DateField()
     number_of_pages = models.PositiveIntegerField()
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT,null=True)
 
 
 class Author(models.Model):
