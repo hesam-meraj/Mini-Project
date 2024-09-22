@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+{% block title %}Book List{% endblock %}
+
+{% block content %}
+<h2>Book List</h2>
+
+<!-- Bootstrap Table -->
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Book Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ book.name }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.category }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No books available</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

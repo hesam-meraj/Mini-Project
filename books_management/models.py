@@ -12,7 +12,8 @@ class Book(models.Model):
     description = models.TextField()
     published_at = models.DateField()
     number_of_pages = models.PositiveIntegerField()
-    # category = models.ForeignKey(Category, on_delete=models.PROTECT,null=True)
+    author = models.ForeignKey('Author',on_delete=models.CASCADE,null=True,blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL,null=True)
     def __str__(self) -> str:
         return self.name
 
@@ -31,8 +32,3 @@ class Author(models.Model):
         return self.name
 
 
-class Ownership(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    def __str__(self) -> str:
-        return self.name
