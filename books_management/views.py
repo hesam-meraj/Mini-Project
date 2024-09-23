@@ -3,10 +3,45 @@ from django.http import HttpResponse
 from .forms import *
 from .models import * 
 from django.contrib import messages
+from django.db.models import Q, Value
+from django.db.models.functions import Concat
+
+
 
 def homepage(request):
+    search_query = request.GET.get('q', '')  
+    min_price = request.GET.get('min_price', '')
+    max_price = request.GET.get('max_price', '')
+    start_date = request.GET.get('start_date', '')
     books = Book.objects.all()
-    return render(request, 'homepage.html',{'books': books})
+    if search_query:
+        books = Book.objects.filter(
+            Q(name__icontains=search_query) |
+            Q(author__name__icontains=search_query) |
+            Q(category__name__icontains=search_query)
+        )
+
+    if min_price:
+        books = books.filter(price__gte=min_price)
+    if max_price:
+        books = books.filter(price__lte=max_price)
+
+    if start_date:
+        books = books.filter(published_at__gte=start_date)
+
+    context = {
+
+    'books': books,
+    'search_query': search_query,
+    'min_price': min_price,
+    'max_price': max_price,
+    'start_date': start_date,
+
+        
+    }
+
+    return render(request, 'homepage.html', context)
+
 
 
 
@@ -66,3 +101,5 @@ def edit_book(request, book_id):
         edit_book_form = AddBooksForm(instance=book)
 
     return render(request,"edit_book.html",context={"edit_book_form": edit_book_form, 'book': book})
+
+

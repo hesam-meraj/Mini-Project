@@ -12,6 +12,7 @@ class Book(models.Model):
     description = models.TextField()
     published_at = models.DateField()
     number_of_pages = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     author = models.ForeignKey('Author',on_delete=models.CASCADE,null=True,blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL,null=True)
     def __str__(self) -> str:
