@@ -23,6 +23,17 @@
             <td>{{ book.name }}</td>
             <td>{{ book.author }}</td>
             <td>{{ book.category }}</td>
+            
+            <td>
+            <form action="{% url 'edit_book' book.id %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Edit</button>
+            </form>
+            <form action="{% url 'delete_book' book.id %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+            </td>
         </tr>
         {% empty %}
         <tr>

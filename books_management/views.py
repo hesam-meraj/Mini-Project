@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .forms import *
 from .models import * 
@@ -44,3 +44,25 @@ def add_book(request):
         add_book_form = AddBooksForm()
         
         return render(request,"add_book.html",context={"add_book_form": add_book_form})
+    
+def delete_book(request, book_id):
+    if request.method == 'POST':
+        book = get_object_or_404(Book, id=book_id)
+        book.delete()
+        return redirect('homepage')
+    return render(request, 'hompage.html')
+
+
+
+def edit_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == 'POST':
+        edit_book_form = AddBooksForm(request.POST, instance=book)
+        if edit_book_form.is_valid():
+            edit_book_form.save()
+            return redirect('homepage')
+    else:
+        edit_book_form = AddBooksForm(instance=book)
+
+    return render(request,"edit_book.html",context={"edit_book_form": edit_book_form, 'book': book})
